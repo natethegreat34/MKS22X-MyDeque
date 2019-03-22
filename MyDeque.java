@@ -1,3 +1,4 @@
+import java.util.*;
 public class MyDeque<E>{
     private E[] data;
     private int size, start, end;
@@ -11,79 +12,102 @@ public class MyDeque<E>{
         data = (E[])new Object[initialCapacity];
     }
     public int size(){
-        return data.length;
+        return end - start;
     }
     public String toString(){
         String display = "[";
         int i = 0;
+        if (i == 0){
+            if (data [i] != null){
+                display = display + data[i];
+            }
+            //need to better toSting if fist value no good
+        }
+        i ++;
         for (; i < data.length - 1; i ++){
-            display = display + data [i] + ", ";
+            if (data [i] != null){
+                if (data[i - 1] != null){
+                    display = display + ", " + data [i];
+                }
+                else{
+                    display = display +  data [i];
+                }
+
+            }
         }
         if (i == data.length -1 ){
-            display = display + data[i] + "]";
+            if (data [i] != null){
+                display = display + ", " + data[i] + "]";
+            }
+            else {
+                display = display +"]";
+            }
         }
+        return display;
     }
     public void addFirst(E element){
-        if (E == null){
+        if (element == null){
             throw new NullPointerException ("");
         }
             // if more space is needed
         if (end == data.length -1){
-            E [] copy = new E [data.length * 2];
-            copy [0] = E;
+            E[] copy = (E[])new Object[data.length * 2];
+            copy [0] = element;
             for (int x = 1; x < data.length + 1; x ++){
                 copy [x] = data [x];
             }
             data = copy;
         }
         else {
-            data [start - 1] = E;
+            data [start - 1] = element;
             start --;
         }
     }
 
     public void addLast(E element){
-        if (E == null){
+        if (element == null){
             throw new NullPointerException ("");
         }
         // if more space is needed
         if (end == data.length -1){
-            E [] copy = new E [data.length * 2];
+            E[] copy = (E[])new Object[data.length * 2];
             for (int x = 0; x < data.length; x ++){
                 copy [x] = data [x];
             }
             data = copy;
         }
         else {
-            data [end] = E;
+            data [end] = element;
             end ++;
         }
     }
 
     public E removeFirst(){
-        if (data.length == 0){
+        if (end - start == 0){
             throw new NoSuchElementException ("");
         }
-        data [0] = 0;
+        E ho = data[data.length - 1];
+        data [0] = null;
         start  ++;
-        return data;
+        return ho;
     }
     public E removeLast(){
-        if (data.length == 0){
+        if (end - start == 0){
             throw new NoSuchElementException ("");
         }
-        data[data.length-1] = 0;
+        E hey = data[data.length - 1];
+        data[data.length-1] = null;
         end --;
-        return data;
+        return hey;
     }
     public E getFirst(){
-        if (data.length == 0){
+        if (end - start == 0){
             throw new NoSuchElementException ("");
         }
         return data[0];
     }
     public E getLast(){
-        if (data.length == 0){
+        if (end - start == 0){
             throw new NoSuchElementException ("");
         }
         return data[0];
