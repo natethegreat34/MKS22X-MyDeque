@@ -24,6 +24,9 @@ public class MyDeque<E>{
         }
     }
     public void addFirst(E element){
+        if (E == null){
+            throw new NullPointerException ("");
+        }
             // if more space is needed
         if (end == data.length -1){
             E [] copy = new E [data.length * 2];
@@ -40,6 +43,9 @@ public class MyDeque<E>{
     }
 
     public void addLast(E element){
+        if (E == null){
+            throw new NullPointerException ("");
+        }
         // if more space is needed
         if (end == data.length -1){
             E [] copy = new E [data.length * 2];
@@ -55,19 +61,31 @@ public class MyDeque<E>{
     }
 
     public E removeFirst(){
+        if (data.length == 0){
+            throw new NoSuchElementException ("");
+        }
         data [0] = 0;
         start  ++;
         return data;
     }
     public E removeLast(){
+        if (data.length == 0){
+            throw new NoSuchElementException ("");
+        }
         data[data.length-1] = 0;
         end --;
         return data;
     }
     public E getFirst(){
+        if (data.length == 0){
+            throw new NoSuchElementException ("");
+        }
         return data[0];
     }
     public E getLast(){
+        if (data.length == 0){
+            throw new NoSuchElementException ("");
+        }
         return data[0];
     }
 }
