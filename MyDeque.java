@@ -4,8 +4,7 @@ import java.util.*;
 // }
 public class MyDeque<E>{
     private E[] data;
-    private int start, end;
-    private int size = 0;
+    private int start, end, size;
     //constructors
     @SuppressWarnings("unchecked")
     public MyDeque(){
@@ -24,7 +23,7 @@ public class MyDeque<E>{
     }
 
     public int size(){
-        System.out.println(end + "  g g  " + start);
+        // System.out.println(end + "  g g  " + start);
         return end - start;
     }
 
@@ -54,13 +53,16 @@ public class MyDeque<E>{
 
 
     public void addFirst(E element){
-        System.out.println("help " + size );
+        // the error is when the arraylist is [0, null, null, null]
+        // ^^end != size, because nulls make the size bigger
+        
+        // System.out.println("help " + size );
         if (element == null){
             throw new NullPointerException ("");
         }
         // if the array has size 0
         if (size == 0){
-            System.out.println("spy");
+            // System.out.println("spy");
             data = (E[])new Object[10];
             data [0] = element;
             size = 10;
@@ -93,7 +95,7 @@ public class MyDeque<E>{
             throw new NullPointerException ("");
         }
         if (size == 0){
-            System.out.println("spy");
+            // System.out.println("spy");
             data = (E[])new Object[10];
             data [0] = element;
             size = 10;
@@ -133,8 +135,8 @@ public class MyDeque<E>{
         if (end - start == 0){
             throw new NoSuchElementException ("");
         }
-        E hey = data[end];
-        data[end] = null;
+        E hey = data[end - 1];
+        data[end - 1] = null;
         end --;
         return hey;
     }
@@ -153,7 +155,7 @@ public class MyDeque<E>{
             throw new NoSuchElementException ("");
         }
         else{
-        return data[end];
+        return data[end - 1];
         }
     }
 }
