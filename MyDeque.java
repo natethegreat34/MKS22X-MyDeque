@@ -1,8 +1,11 @@
 import java.util.*;
+// public static void main(String[] args) {
+//
+// }
 public class MyDeque<E>{
     private E[] data;
-    private int size, start, end;
-
+    private int start, end;
+    private int size = end - start;
     @SuppressWarnings("unchecked")
     public MyDeque(){
         data = (E[])new Object[10];
@@ -12,55 +15,53 @@ public class MyDeque<E>{
         data = (E[])new Object[initialCapacity];
     }
     public int size(){
-        return end - start;
+        return size;
     }
     public String toString(){
-        String display = "[";
-        int i = 0;
-        if (i == 0){
+        String display = "{";
+        int i = start;
+        for (; i < end; i ++){
             if (data [i] != null){
-                display = display + data[i];
-            }
-            //need to better toSting if fist value no good
-        }
-        i ++;
-        for (; i < data.length - 1; i ++){
-            if (data [i] != null){
-                if (data[i - 1] != null){
-                    display = display + ", " + data [i];
-                }
-                else{
-                    display = display +  data [i];
-                }
-
+                display = display + data [i] + " ";
             }
         }
-        if (i == data.length -1 ){
+        if (i == end){
             if (data [i] != null){
-                display = display + ", " + data[i] + "]";
+                display = display + data[i] + "}";
             }
             else {
-                display = display +"]";
+                display = display +"}";
             }
         }
         return display;
     }
     public void addFirst(E element){
+        System.out.println("help " + data.length );
         if (element == null){
             throw new NullPointerException ("");
         }
+        if (size == 0){
+            System.out.println("spy");
+            data = (E[])new Object[10];
+            data [0] = element;
+                size ++;
+        }
+        else{
             // if more space is needed
         if (end == data.length -1){
             E[] copy = (E[])new Object[data.length * 2];
+            size = data.length * 2;
             copy [0] = element;
             for (int x = 1; x < data.length + 1; x ++){
-                copy [x] = data [x];
+                copy [x] = data [x - 1];
             }
             data = copy;
         }
         else {
             data [start - 1] = element;
             start --;
+            size ++;
+        }
         }
     }
 
@@ -68,46 +69,60 @@ public class MyDeque<E>{
         if (element == null){
             throw new NullPointerException ("");
         }
+        if (size == 0){
+            System.out.println("spy");
+            data = (E[])new Object[10];
+            data [0] = element;
+            System.out.println(this.toString());
+            size ++;
+        }
+        else{
         // if more space is needed
         if (end == data.length -1){
             E[] copy = (E[])new Object[data.length * 2];
+            size = data.length * 2;
             for (int x = 0; x < data.length; x ++){
                 copy [x] = data [x];
             }
+            copy[data.length] = element;
             data = copy;
         }
         else {
             data [end] = element;
+            size ++;
             end ++;
         }
     }
+}
 
     public E removeFirst(){
-        if (end - start == 0){
+        if (size == 0){
             throw new NoSuchElementException ("");
         }
-        E ho = data[data.length - 1];
+        E ho = data[size - 1];
         data [0] = null;
         start  ++;
+        size --;
         return ho;
     }
     public E removeLast(){
-        if (end - start == 0){
+        if (size == 0){
             throw new NoSuchElementException ("");
         }
         E hey = data[data.length - 1];
         data[data.length-1] = null;
         end --;
+        size --;
         return hey;
     }
     public E getFirst(){
-        if (end - start == 0){
+        if (size == 0){
             throw new NoSuchElementException ("");
         }
         return data[0];
     }
     public E getLast(){
-        if (end - start == 0){
+        if (size == 0){
             throw new NoSuchElementException ("");
         }
         return data[0];
