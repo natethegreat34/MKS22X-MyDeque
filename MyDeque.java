@@ -69,7 +69,14 @@ public class MyDeque<E>{
                  data[hold] = element;
                  size ++;
              }
-
+             if (size == 0){
+                 // System.out.println("spy");
+                 data = (E[])new Object[10];
+                 data [0] = element;
+                 size = 1;
+                 start = 0;
+                 end = 0;
+             }
              else if (start == 0 && end != data.length){
                  // if there is room on the other side, move start over there
                  start = data.length - 1;
