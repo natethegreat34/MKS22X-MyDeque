@@ -73,6 +73,15 @@ public class MyDeque<E>{
             start = 0;
             end = 0;
         }
+        else if (size == 1){
+            E o = data [0];
+            data = (E[])new Object[10];
+            data [0] = element;
+            data [1] = o;
+            size = 2;
+            start = 0;
+            end = 1;
+        }
         else{
             // might need to replace null values
             // if more space is needed
@@ -87,17 +96,10 @@ public class MyDeque<E>{
                 data = copy;
                 end ++;
             }
-            else {
-                if(start == 0 && end != data.length -1){
-                    start = data.length -1;
-                    data [start] = element;
-                    size ++;
-                }
-                else{
-                data [start - 1] = element;
+            else { //if there is space
+                start--;
+                data[start] = element;
                 size ++;
-                start --;
-                }
             }
         }
     }
