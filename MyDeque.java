@@ -116,30 +116,23 @@ public class MyDeque<E>{
         }
         else{// what is start is in front of end
             // if more space is needed
-            if (end == data.length - 1&& start == 0){
+            if (end == data.length - 1 && start == 0){
                 E[] copy = (E[])new Object[data.length * 2];
                 for (int x = 0; x < data.length; x ++){
                     copy [x] = data [x];
                 }
                 copy[end + 1] = element;
-                size ++;
                 data = copy;
                 end ++;
+                size ++;
             }
-            else {
-                if (end == data.length - 1 && start > 0){
-                    data [0] = element;
-                    size ++;
-                    end = 0;
-                }
-                else{
-                    data [end] = element;
-                    size ++;
+            else if (data [end + 1] == null){
+                    data [end + 1] = element;
                     end ++;
+                    size ++;
                 }
             }
         }
-    }
 
     public E removeFirst(){
         if (size == 0){
