@@ -29,19 +29,19 @@ public class MyDeque<E>{
             display = display + "}";
             return display;
         }
-        if (start > end - 1){
+        if (start > end){
             for (; i < data.length; i ++){
                 if (data [i] != null){
                     display = display + data [i] + " ";
                 }
             }
         }
-        for (; i < end - 1; i ++){
+        for (; i < end; i ++){
             if (data [i] != null){
                 display = display + data [i] + " ";
             }
         }
-        if (i == end - 1){
+        if (i == end){
             if (data [i] != null){
                 display = display + data[i] + "}";
             }
@@ -62,22 +62,22 @@ public class MyDeque<E>{
             throw new NullPointerException ("");
         }
         // if the array has data.length 0
-        if (data.length == 0){
+        if (size == 0){
             // System.out.println("spy");
             data = (E[])new Object[10];
             data [0] = element;
             size = 1;
             start = 0;
-            end = 1;
+            end = 0;
         }
         else{
             // might need to replace null values
             // if more space is needed
             // if the array is full
-            if (end == data.length && start == 0){
-                E[] copy = (E[])new Object[size * 2];
+            if (end == data.length - 1&& start == 0){
+                E[] copy = (E[])new Object[data.length * 2];
                 copy [0] = element;
-                for (int x = 1; x < size; x ++){
+                for (int x = 1; x < data.length; x ++){
                     copy [x] = data [x - 1];
                 }
                 size ++;
@@ -85,7 +85,7 @@ public class MyDeque<E>{
                 end ++;
             }
             else {
-                if(start == 0 && end != data.length){
+                if(start == 0 && end != data.length -1){
                     start = data.length -1;
                     data [start] = element;
                     size ++;
@@ -103,7 +103,7 @@ public class MyDeque<E>{
         if (element == null){
             throw new NullPointerException ("");
         }
-        if (data.length == 0){
+        if (size == 0){
             // System.out.println("spy");
             data = (E[])new Object[10];
             data [0] = element;
@@ -111,9 +111,9 @@ public class MyDeque<E>{
             start = 0;
             end = 1;
         }
-        else{
+        else{// what is start is in front of end
             // if more space is needed
-            if (end == data.length){
+            if (end == data.length - 1&& start == 0){
                 E[] copy = (E[])new Object[data.length * 2];
                 for (int x = 0; x < data.length; x ++){
                     copy [x] = data [x];
@@ -124,15 +124,22 @@ public class MyDeque<E>{
                 end ++;
             }
             else {
-                data [end] = element;
-                size ++;
-                end ++;
+                if (end == data.length - 1 && start > 0){
+                    data [0] = element;
+                    size ++;
+                    end = 0;
+                }
+                else{
+                    data [end] = element;
+                    size ++;
+                    end ++;
+                }
             }
         }
     }
 
     public E removeFirst(){
-        if (end - start == 0){
+        if (size == 0){
             throw new NoSuchElementException ("");
         }
         E ho = data[start];
@@ -143,18 +150,18 @@ public class MyDeque<E>{
     }
 
     public E removeLast(){
-        if (end - start == 0){
+        if (size == 0){
             throw new NoSuchElementException ("");
         }
-        E hey = data[end - 1];
-        data[end - 1] = null;
+        E hey = data[end];
+        data[end] = null;
         end --;
         size --;
         return hey;
     }
 
     public E getFirst(){
-        if (end - start == 0){
+        if (size == 0){
             throw new NoSuchElementException ("");
         }
         else{
@@ -163,11 +170,11 @@ public class MyDeque<E>{
     }
 
     public E getLast(){
-        if (end - start == 0){
+        if (size == 0){
             throw new NoSuchElementException ("");
         }
         else{
-        return data[end - 1];
+        return data[end];
         }
     }
 }
