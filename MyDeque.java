@@ -89,7 +89,7 @@ public class MyDeque<E>{
                  E[] copy = (E[])new Object[data.length * 2];
                  // adds new element
                  if ( start <= end){
-                    for (int x =  start; x < end + 1; x ++){
+                    for (int x =  start; x < data.length; x ++){
                         copy [x - start] = data [x];
                     }
                     copy [data.length] = element;
@@ -98,13 +98,13 @@ public class MyDeque<E>{
                 }
                 if (end < start){
                     for (int x =  start; x < data.length; x ++){
-                        copy [x - start] = data [x];
+                        copy [x - start + 1] = data [x];
                     }
-                    for (int x =  0; x < start - 1; x ++){
-                        copy [data.length - start - 1] = data [x];
+                    for (int x =  0; x < end + 1; x ++){
+                        copy [data.length - start] = data [x];
                     }
-                    copy [start - 1]= element;
-                    start --;
+                    copy [0]= element;
+                    start = 0;
                     data = copy;
 
                 }
