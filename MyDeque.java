@@ -60,6 +60,7 @@ public class MyDeque<E>{
         if (element == null){
             throw new NullPointerException ("");
         }
+        // if there is nothing in the list, make a new list with a new element
         if (size == 0){
             // System.out.println("spy");
             data = (E[])new Object[10];
@@ -68,10 +69,11 @@ public class MyDeque<E>{
             start = 0;
             end = 0;
         }
-        else{// what is start is in front of end
-            // if more space is needed
+        else{
+            // if full, make new array with double the space, starting with the new element
             if (end == data.length - 1 && start == 0){
                 E[] copy = (E[])new Object[data.length * 2];
+                // adds new element
                 copy [0] = element;
                 for (int x =  1; x < data.length; x ++){
                     copy [x] = data [x - 1];
@@ -81,11 +83,13 @@ public class MyDeque<E>{
                 size ++;
             }
             else if (start == 0 && end != data.length){
+                // if there is room on the other side, move start over there
                 start = data.length - 1;
                 data [start] = element;
                 size ++;
             }
             else if (data [start - 1] == null){
+                // if all else fails, if there is room to add normally do that
                     data [start - 1] = element;
                     start --;
                     size ++;
