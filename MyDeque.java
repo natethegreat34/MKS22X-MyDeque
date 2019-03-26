@@ -2,6 +2,7 @@ import java.util.*;
 public class MyDeque<E>{
     private E[] data;
     private int start, end, size;
+    private int i;
 
     @SuppressWarnings("unchecked")
     public MyDeque(){
@@ -55,48 +56,109 @@ public class MyDeque<E>{
         return display;
     }
 
-
     public void addFirst(E element){
-        if (element == null){
-            throw new NullPointerException ("");
-        }
-        // if there is nothing in the list, make a new list with a new element
-        if (size == 0){
-            // System.out.println("spy");
-            data = (E[])new Object[10];
-            data [0] = element;
-            size = 1;
-            start = 0;
-            end = 0;
-        }
-        else{
-            // if full, make new array with double the space, starting with the new element
-            if (end == data.length - 1 && start == 0){
-                E[] copy = (E[])new Object[data.length * 2];
-                // adds new element
-                copy [0] = element;
-                for (int x =  1; x < data.length; x ++){
-                    copy [x] = data [x - 1];
-                }
-                data = copy;
-                end ++;
-                size ++;
-            }
-            else if (start == 0 && end != data.length){
-                // if there is room on the other side, move start over there
-                start = data.length - 1;
-                data [start] = element;
-                size ++;
-            }
-            else if (data [start - 1] == null){
-                // if all else fails, if there is room to add normally do that
-                    data [start - 1] = element;
-                    start --;
-                    size ++;
-                }
-            }
-        }
+        System.out.println("sad bot" + this.toString() + i + start + "  " +end);
+         if (element == null){
+             throw new NullPointerException ("");
+         }
 
+         else if (end == 0 && start == 0 && size == 0){
+             System.out.println("hello" + i+ start + "  " +end);
+             // System.out.println("spy");
+             data = (E[])new Object[10];
+             data [0] = element;
+             size = 1;
+             start = 0;
+             end = 0;
+         }
+         else if (end == 0 && start == 0 && size == 1){
+             System.out.println("hello" + i+ start + "  " +end);
+             E help = data [0];
+             // System.out.println("spy");
+             data = (E[])new Object[10];
+             data [0] = element;
+             data [1] = help;
+             size = 2;
+             start = 0;
+             end = 1;
+         }
+         // if there is nothing in the list, make a new list with a new element
+         else{
+             // if full, make new array with double the space, starting with the new element
+             if (size == data.length){
+                 E[] copy = (E[])new Object[data.length * 2];
+                 // adds new element
+                 if ( start < end){
+                     if (start == 0){
+                         for (int x =  start; x < end + 1; x ++){
+                             copy [x] = data [x];
+                         }
+                         copy [data.length] = element;
+                         start = data.length;
+                         data = copy;
+                     }
+                if (end < start){
+                    for (int x =  start; x < data.length; x ++){
+                        copy [x - start] = data [x];
+                    }
+                    for (int x =  0; x < start - 1; x ++){
+                        copy [data.length - start - 1] = data [x];
+                    }
+                    copy [start - 1]= element;
+                    start --;
+                    data = copy;
+
+                }
+                
+             else if (start == 0 && end != data.length){
+                 // if there is room on the other side, move start over there
+                 start = data.length - 1;
+                 data [start] = element;
+             }
+             else if (data [start - 1] == null){
+                 // if all else fails, if there is room to add normally do that
+                     data [start - 1] = element;
+                     start --;
+                 }
+             }
+             size ++;
+             i ++;
+         }
+     }
+
+  private E[] resize() {
+    @SuppressWarnings("unchecked")
+    E[] resized = (E[])new Object[size * 2]; //create new array
+    int oldStart = start; //store start and end for the original data
+    int oldEnd = end;
+    start = 0; //new start and end values in resized array
+    end = size-1;
+    // System.out.println("end: " +end);
+    if (oldStart <= oldEnd) { //if the start is before the end
+      for (int i = 0 ; i < size; i ++) {
+        resized[i] = data[oldStart+i];
+      }
+    }
+    else {
+      int cur = 0; //cur index in the new array
+      for (int i = 0 ; oldStart + i < data.length; i++) {
+        resized[i] = data[oldStart+i];
+        cur = i;
+      }
+      cur++;
+      int i = 0;
+      while (i <= oldEnd) {
+        resized[cur] = data[i];
+        cur++;
+        i++;
+      }
+    }
+    // System.out.println("End: " + end);
+    // System.out.println("Start: " + start);
+    // System.out.println("Size: "+ size);
+    // System.out.println("New Length: " + resized.length);
+    return resized;
+  }
     public void addLast(E element){
         if (element == null){
             throw new NullPointerException ("");
