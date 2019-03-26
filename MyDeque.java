@@ -1,11 +1,8 @@
 import java.util.*;
-// public static void main(String[] args) {
-//
-// }
 public class MyDeque<E>{
     private E[] data;
     private int start, end, size;
-    //constructors
+
     @SuppressWarnings("unchecked")
     public MyDeque(){
         data = (E[])new Object[10];
@@ -17,8 +14,6 @@ public class MyDeque<E>{
     }
 
     public int size(){
-
-        // System.out.println(end + "  g g  " + start);
         return size;
     }
 
@@ -29,6 +24,13 @@ public class MyDeque<E>{
             display = display + "}";
             return display;
         }
+        if (size == 0){
+            if (data [i] != null){
+                display = display + data[i] + "}";
+                return display;
+            }
+            return display + "}";
+        }
         if (start > end){
             for (; i < data.length; i ++){
                 if (data [i] != null){
@@ -36,6 +38,7 @@ public class MyDeque<E>{
                 }
             }
         }
+        i = 0;
         for (; i < end; i ++){
             if (data [i] != null){
                 display = display + data [i] + " ";
@@ -109,7 +112,7 @@ public class MyDeque<E>{
             data [0] = element;
             size = 1;
             start = 0;
-            end = 1;
+            end = 0;
         }
         else{// what is start is in front of end
             // if more space is needed
@@ -118,7 +121,7 @@ public class MyDeque<E>{
                 for (int x = 0; x < data.length; x ++){
                     copy [x] = data [x];
                 }
-                copy[data.length] = element;
+                copy[end + 1] = element;
                 size ++;
                 data = copy;
                 end ++;
@@ -144,7 +147,12 @@ public class MyDeque<E>{
         }
         E ho = data[start];
         data [start] = null;
-        start ++;
+        if (start == data.length -1){
+            start = 0;
+        }
+        else{
+            start ++;
+        }
         size --;
         return ho;
     }
@@ -155,8 +163,14 @@ public class MyDeque<E>{
         }
         E hey = data[end];
         data[end] = null;
-        end --;
+        if (end == 0){
+            end = data.length -1;
+        }
+        else{
+            end --;
+        }
         size --;
+
         return hey;
     }
 
