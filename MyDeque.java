@@ -125,40 +125,6 @@ public class MyDeque<E>{
              i ++;
          }
      }
-
-  private E[] resize() {
-    @SuppressWarnings("unchecked")
-    E[] resized = (E[])new Object[size * 2]; //create new array
-    int oldStart = start; //store start and end for the original data
-    int oldEnd = end;
-    start = 0; //new start and end values in resized array
-    end = size-1;
-    // System.out.println("end: " +end);
-    if (oldStart <= oldEnd) { //if the start is before the end
-      for (int i = 0 ; i < size; i ++) {
-        resized[i] = data[oldStart+i];
-      }
-    }
-    else {
-      int cur = 0; //cur index in the new array
-      for (int i = 0 ; oldStart + i < data.length; i++) {
-        resized[i] = data[oldStart+i];
-        cur = i;
-      }
-      cur++;
-      int i = 0;
-      while (i <= oldEnd) {
-        resized[cur] = data[i];
-        cur++;
-        i++;
-      }
-    }
-    // System.out.println("End: " + end);
-    // System.out.println("Start: " + start);
-    // System.out.println("Size: "+ size);
-    // System.out.println("New Length: " + resized.length);
-    return resized;
-  }
     public void addLast(E element){
         if (element == null){
             throw new NullPointerException ("");
