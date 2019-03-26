@@ -9,17 +9,11 @@ public class MyDeque<E>{
     @SuppressWarnings("unchecked")
     public MyDeque(){
         data = (E[])new Object[10];
-        size = 0;
-        start = 0;
-        end = 0;
     }
 
     @SuppressWarnings("unchecked")
     public MyDeque(int initialCapacity){
         data = (E[])new Object[initialCapacity];
-        size = 0;
-        start = 0;
-        end = 0;
     }
 
     public int size(){
@@ -80,7 +74,7 @@ public class MyDeque<E>{
             // might need to replace null values
             // if more space is needed
             // if the array is full
-            if (end == size && start == 0){
+            if (end == data.length && start == 0){
                 E[] copy = (E[])new Object[size * 2];
                 copy [0] = element;
                 for (int x = 1; x < size; x ++){
