@@ -88,15 +88,14 @@ public class MyDeque<E>{
              if (size == data.length){
                  E[] copy = (E[])new Object[data.length * 2];
                  // adds new element
-                 if ( start < end){
-                     if (start == 0){
-                         for (int x =  start; x < end + 1; x ++){
-                             copy [x] = data [x];
-                         }
-                         copy [data.length] = element;
-                         start = data.length;
-                         data = copy;
-                     }
+                 if ( start <= end){
+                    for (int x =  start; x < end + 1; x ++){
+                        copy [x - start] = data [x];
+                    }
+                    copy [data.length] = element;
+                    start = data.length;
+                    data = copy;
+                }
                 if (end < start){
                     for (int x =  start; x < data.length; x ++){
                         copy [x - start] = data [x];
@@ -109,7 +108,7 @@ public class MyDeque<E>{
                     data = copy;
 
                 }
-                
+
              else if (start == 0 && end != data.length){
                  // if there is room on the other side, move start over there
                  start = data.length - 1;
