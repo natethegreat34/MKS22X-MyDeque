@@ -57,72 +57,31 @@ public class MyDeque<E>{
     }
 
     public void addFirst(E element){
-        System.out.println("sad bot" + this.toString() + i + start + "  " +end);
+        // System.out.println("sad bot" + this.toString() + i + start + "  " +end);
          if (element == null){
              throw new NullPointerException ("");
          }
-
-         else if (end == 0 && start == 0 && size == 0){
-             System.out.println("hello" + i+ start + "  " +end);
-             // System.out.println("spy");
-             data = (E[])new Object[10];
-             data [0] = element;
-             size = 1;
-             start = 0;
-             end = 0;
-         }
-         else if (end == 0 && start == 0 && size == 1){
-             System.out.println("hello" + i+ start + "  " +end);
-             E help = data [0];
-             // System.out.println("spy");
-             data = (E[])new Object[10];
-             data [0] = element;
-             data [1] = help;
-             size = 2;
-             start = 0;
-             end = 1;
-         }
          // if there is nothing in the list, make a new list with a new element
-         else{
-             // if full, make new array with double the space, starting with the new element
-             if (size == data.length){
-                 E[] copy = (E[])new Object[data.length * 2];
-                 // adds new element
-                 if ( start <= end){
-                    for (int x =  start; x < data.length; x ++){
-                        copy [x - start] = data [x];
-                    }
-                    copy [data.length] = element;
-                    start = data.length;
-                    data = copy;
-                }
-                if (end < start){
-                    for (int x =  start; x < data.length; x ++){
-                        copy [x - start + 1] = data [x];
-                    }
-                    for (int x =  0; x < end + 1; x ++){
-                        copy [data.length - start] = data [x];
-                    }
-                    copy [0]= element;
-                    start = 0;
-                    data = copy;
-
-                }
+         else if (size == data.length){
+             int hold = data.length;
+                 resizer();
+                 start = hold;
+                 data[hold] = element;
+                 size ++;
+             }
 
              else if (start == 0 && end != data.length){
                  // if there is room on the other side, move start over there
                  start = data.length - 1;
                  data [start] = element;
+                 size ++;
              }
              else if (data [start - 1] == null){
                  // if all else fails, if there is room to add normally do that
                      data [start - 1] = element;
                      start --;
+                     size ++;
                  }
-             }
-             size ++;
-             i ++;
-         }
      }
     public void addLast(E element){
         if (element == null){
@@ -136,31 +95,42 @@ public class MyDeque<E>{
             start = 0;
             end = 0;
         }
-        else{// what is start is in front of end
-            // if more space is needed
-            if (end == data.length - 1 && start == 0){
-                E[] copy = (E[])new Object[data.length * 2];
-                for (int x = 0; x < data.length; x ++){
-                    copy [x] = data [x];
-                }
-                copy[end + 1] = element;
-                data = copy;
-                end ++;
-                size ++;
+        else if (size == data.length){
+            resizer ();
+            end ++;
+            data [end] = element;
+            size ++;
             }
-            else if (end == data.length -1 && start != 0){
+        else if (end == data.length -1 && start != 0){
                 end = 0;
                 data [end] = element;
                 size ++;
             }
-            else if (data [end + 1] == null){
+        else if (data [end + 1] == null){
                     data [end + 1] = element;
                     end ++;
                     size ++;
                 }
-            }
         }
-
+private void resizer(){
+    E[] copy = (E[])new Object[data.length * 2];
+    // adds new element
+    if (start <= end){
+       for (int x =  start; x < data.length; x ++){
+           copy [x - start] = data [x];
+       }
+   }
+   else if (end < start){
+       int x = start;
+       for (; x < data.length; x ++){
+           copy [x - start] = data [x];
+       }
+       for (int y =  0; y < end + 1; y ++){
+           copy [data.length - start] = data [y];
+       }
+   }
+       data = copy;
+   }
     public E removeFirst(){
         if (size == 0){
             throw new NoSuchElementException ("");
