@@ -57,14 +57,9 @@ public class MyDeque<E>{
 
 
     public void addFirst(E element){
-        // the error is when the arraylist is [0, null, null, null]
-        // ^^end != data.length, because nulls make the data.length bigger
-
-        // System.out.println("help " + data.length );
         if (element == null){
             throw new NullPointerException ("");
         }
-        // if the array has data.length 0
         if (size == 0){
             // System.out.println("spy");
             data = (E[])new Object[10];
@@ -73,36 +68,30 @@ public class MyDeque<E>{
             start = 0;
             end = 0;
         }
-        else if (size == 1){
-            E o = data [0];
-            data = (E[])new Object[10];
-            data [0] = element;
-            data [1] = o;
-            size = 2;
-            start = 0;
-            end = 1;
-        }
-        else{
-            // might need to replace null values
+        else{// what is start is in front of end
             // if more space is needed
-            // if the array is full
-            if (end == data.length - 1&& start == 0){
+            if (end == data.length - 1 && start == 0){
                 E[] copy = (E[])new Object[data.length * 2];
                 copy [0] = element;
-                for (int x = 1; x < data.length; x ++){
+                for (int x =  1; x < data.length; x ++){
                     copy [x] = data [x - 1];
                 }
-                size ++;
                 data = copy;
                 end ++;
-            }
-            else { //if there is space
-                start--;
-                data[start] = element;
                 size ++;
             }
+            else if (start == 0 && end != data.length){
+                start = data.length - 1;
+                data [start] = element;
+                size ++;
+            }
+            else if (data [start - 1] == null){
+                    data [start - 1] = element;
+                    start --;
+                    size ++;
+                }
+            }
         }
-    }
 
     public void addLast(E element){
         if (element == null){
@@ -126,6 +115,11 @@ public class MyDeque<E>{
                 copy[end + 1] = element;
                 data = copy;
                 end ++;
+                size ++;
+            }
+            else if (end == data.length -1 && start != 0){
+                end = 0;
+                data [end] = element;
                 size ++;
             }
             else if (data [end + 1] == null){
