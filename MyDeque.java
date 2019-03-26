@@ -51,9 +51,9 @@ public class MyDeque<E>{
             if (data [i] != null){
                 display = display + data[i] + "}";
             }
-            else {
-                display = display +"}";
-            }
+        }
+        else {
+            display = display +"}";
         }
         return display;
     }
@@ -93,10 +93,14 @@ public class MyDeque<E>{
             else {
                 if(start == 0 && end != data.length){
                     start = data.length -1;
-                    data [data.length - 1] = element;
+                    data [start] = element;
+                    size ++;
                 }
+                else{
                 data [start - 1] = element;
+                size ++;
                 start --;
+                }
             }
         }
     }
@@ -127,6 +131,7 @@ public class MyDeque<E>{
             }
             else {
                 data [end] = element;
+                size ++;
                 end ++;
             }
         }
@@ -139,6 +144,7 @@ public class MyDeque<E>{
         E ho = data[start];
         data [start] = null;
         start ++;
+        size --;
         return ho;
     }
 
@@ -149,6 +155,7 @@ public class MyDeque<E>{
         E hey = data[end - 1];
         data[end - 1] = null;
         end --;
+        size --;
         return hey;
     }
 
