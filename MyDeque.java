@@ -57,19 +57,38 @@ public class MyDeque<E>{
     }
 
     public void addFirst(E element){
+        // problem is that end isn't changing
+        // edit: fixed
+        int e = data.length - 1;
+        // System.out.println( "-------------------------------------------------------");
+        // System.out.println("adding" + element);
+        // System.out.println("Start: " +  start);
+        // System.out.println("End: " +  end);
+        // System.out.println("Size: " +  size);
+        // System.out.println("Length " +  data.length);
+        // System.out.println("before re-size: " +  this.toString());
+
         // System.out.println("sad bot" + this.toString() + i + start + "  " +end);
          if (element == null){
              throw new NullPointerException ("");
          }
          // if there is nothing in the list, make a new list with a new element
          else if (size == data.length){
-             int hold = data.length;
+             // System.out.println(this.toString() + "data");
                  resizer();
-                 start = hold;
-                 data[hold] = element;
+                              // System.out.println(this.toString() + "copy" + data.length);
+                 start = data.length - 1;
+                 data[start] = element;
+                 end = e;
                  size ++;
+
+                // System.out.println(this.toString() + "copy");
+                // System.out.println("Start: " +  start);
+                // System.out.println("End: " +  end);
+                // System.out.println("Length: " +  data.length);
+                // System.out.println("]]]]]]]]]");
              }
-             if (size == 0){
+             else if (size == 0){
                  // System.out.println("spy");
                  data = (E[])new Object[10];
                  data [0] = element;
@@ -77,7 +96,7 @@ public class MyDeque<E>{
                  start = 0;
                  end = 0;
              }
-             else if (start == 0 && end != data.length){
+             else if (start == 0 && end != data.length - 1){
                  // if there is room on the other side, move start over there
                  start = data.length - 1;
                  data [start] = element;
@@ -89,8 +108,11 @@ public class MyDeque<E>{
                      start --;
                      size ++;
                  }
+                 // System.out.println("after re-size: " +  this.toString());
+                 // System.out.println( "-------------------------------------------------------");
      }
     public void addLast(E element){
+        // same as add first but inverted
         if (element == null){
             throw new NullPointerException ("");
         }
@@ -106,6 +128,7 @@ public class MyDeque<E>{
             resizer ();
             end ++;
             data [end] = element;
+            start = 0;
             size ++;
             }
         else if (end == data.length -1 && start != 0){
@@ -121,21 +144,38 @@ public class MyDeque<E>{
         }
 private void resizer(){
     E[] copy = (E[])new Object[data.length * 2];
-    // adds new element
-    if (start <= end){
-       for (int x =  start; x < data.length; x ++){
-           copy [x - start] = data [x];
-       }
-   }
-   else if (end < start){
-       int x = start;
-       for (; x < data.length; x ++){
-           copy [x - start] = data [x];
-       }
-       for (int y =  0; y < end + 1; y ++){
-           copy [data.length - start] = data [y];
-       }
-   }
+    // if like [1,2,3,start,end, 7 8]
+    if (size > 1 && end - start == 1){
+        int y = 0;
+        for (int x =  start; x >= 0; x --){
+                copy [y] = data [x];
+                y ++;
+        }
+        for (int x =  data.length - 1; x >= end; x --){
+                copy [y] = data [x];
+                y ++;
+        }
+    }
+    // if like [start, 1, 2, 3, 4, end]
+    else if (start == 0 && end == data.length - 1){
+        for (int x =  0; x <= end; x ++){
+                copy [x] = data [x];
+        }
+    }
+
+    // if like [1,2,3,end,start, 7 8]
+    else if (start > end){
+        int y = 0;
+        for (int x =  start; x < data.length; x ++){
+                copy [y] = data [x];
+                y ++;
+        }
+        for (int x =  0; x <= end; x ++){
+                copy [y] = data [x];
+                y ++;
+        }
+
+    }
        data = copy;
    }
     public E removeFirst(){
